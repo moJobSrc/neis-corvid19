@@ -1,6 +1,8 @@
 package com.lepitar.corvid19;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -10,6 +12,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
@@ -34,6 +37,7 @@ public class UniverseAccount extends AppCompatActivity {
     LinearLayoutManager linearLayoutManager;
     ImageView back, add;
     AdView mAdView;
+    CustomDialog customDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +58,8 @@ public class UniverseAccount extends AppCompatActivity {
         add = findViewById(R.id.add);
         linearLayoutManager = new LinearLayoutManager(this);
         account_list.setLayoutManager(linearLayoutManager);
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleItemTouchCallback);
+        itemTouchHelper.attachToRecyclerView(account_list);
 
         loadData();
         accountAdapter = new AccountAdapter(arrayList);
@@ -78,8 +84,48 @@ public class UniverseAccount extends AppCompatActivity {
         });
     }
 
+    ItemTouchHelper.SimpleCallback simpleItemTouchCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
+        @Override
+        public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+                return false;
+        }
+
+        @Override
+        public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+            try {
+                final int position = viewHolder.getAdapterPosition();
+                View.OnClickListener btnok = new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        arrayList.remove(position);
+                        accountAdapter.notifyItemRemoved(position);
+                        saveData();
+                        customDialog.dismiss();
+                    }
+                };
+                customDialog = new CustomDialog(UniverseAccount.this, "해당 학생정보를 지우시겠습니까?", btnok);
+                customDialog.setCancelable(false);
+                customDialog.setCanceledOnTouchOutside(false);
+                customDialog.show();
+                loadData();
+                accountAdapter = new AccountAdapter(arrayList);
+                account_list.setAdapter(accountAdapter);
+            } catch (Exception e) {
+                Toast.makeText(UniverseAccount.this, e.toString() , Toast.LENGTH_SHORT).show();
+            }
+        }
+    };
+
+    public void saveData() {
+        SharedPreferences.Editor editor = getSharedPreferences("account", MODE_PRIVATE).edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(arrayList);
+        editor.putString("account_list", json);
+        editor.apply();
+    }
+
     public void loadData() {
-        SharedPreferences sharedPreferences = getSharedPreferences("school", MODE_PRIVATE);
+        SharedPreferences sharedPreferences = getSharedPreferences("account", MODE_PRIVATE);
         Gson gson = new Gson();
         String json = sharedPreferences.getString("account_list", null);
         Type type = new TypeToken<ArrayList<AccountData>>() {}.getType();

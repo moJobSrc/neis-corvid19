@@ -14,6 +14,10 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.lepitar.corvid19.ListAccount.AccountData;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.jsoup.Connection;
@@ -21,19 +25,22 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
 import java.io.IOException;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 
 public class SmsActivity extends AppCompatActivity {
     Button next;
     EditText name, sms_key;
     ImageView back, setting;
-    String result = "";
-    String qstnCrtfcNoEncpt = "";
+    String result = "", qstnCrtfcNoEncpt = "";
+    ArrayList<AccountData> arrayList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sms);
         SharedPreferences sharedPreferences = getSharedPreferences("school", MODE_PRIVATE);
+        loadData();
 
         name = findViewById(R.id.name);
         sms_key = findViewById(R.id.sms_key);
@@ -63,6 +70,8 @@ public class SmsActivity extends AppCompatActivity {
                 startActivity(new Intent(getApplicationContext(), settingActivity.class));
             }
         });
+
+        if (sharedPreferences.getBoolean("autologin", false) && !getSharedPreferences("add", MODE_PRIVATE).getBoolean("add", false)) new Confirm().execute();
     }
 
     private class Confirm extends AsyncTask<Void,Void,Void> {
@@ -105,6 +114,8 @@ public class SmsActivity extends AppCompatActivity {
             } else {
                 SharedPreferences sharedPreferences = getSharedPreferences("school", MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
+                SharedPreferences add = getSharedPreferences("add", MODE_PRIVATE);
+                SharedPreferences.Editor addeditor = add.edit();
 
                 if ("SUCCESS".equals(result)) {
                     if (sharedPreferences.getBoolean("autologin", false)) {
@@ -116,6 +127,13 @@ public class SmsActivity extends AppCompatActivity {
                     editor.putString("sms_key", sms_key.getText().toString());
                     editor.putString("k", qstnCrtfcNoEncpt);
                     editor.putBoolean("autologin", true);
+                    if (add.getBoolean("add", false)) {
+                        arrayList.add(new AccountData(name.getText().toString(), "", "", qstnCrtfcNoEncpt, "" , sms_key.getText().toString() ,getSharedPreferences("school", MODE_PRIVATE).getString("website", ""), true));
+                        saveData();
+                        startActivity(new Intent(getApplicationContext(), Survey.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+                        addeditor.putBoolean("add", false);
+                        addeditor.apply();
+                    }
                     editor.apply();
                     startActivity(new Intent(getApplicationContext(), Survey.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
                     overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
@@ -125,6 +143,13 @@ public class SmsActivity extends AppCompatActivity {
                     editor.putString("sms_key", sms_key.getText().toString());
                     editor.putString("k", qstnCrtfcNoEncpt);
                     editor.putBoolean("autologin", true);
+                    if (add.getBoolean("add", false)) {
+                        arrayList.add(new AccountData(name.getText().toString(), "", "", qstnCrtfcNoEncpt, "" , sms_key.getText().toString() ,getSharedPreferences("school", MODE_PRIVATE).getString("website", ""), true));
+                        saveData();
+                        startActivity(new Intent(getApplicationContext(), Survey.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+                        addeditor.putBoolean("add", false);
+                        addeditor.apply();
+                    }
                     editor.apply();
                     startActivity(new Intent(getApplicationContext(), TeacherActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
                     overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
@@ -155,6 +180,25 @@ public class SmsActivity extends AppCompatActivity {
         qstnCrtfcNoEncpt = jsonObject.getString("qstnCrtfcNoEncpt");
     }
 
+    public void saveData() {
+        SharedPreferences.Editor editor = getSharedPreferences("account", MODE_PRIVATE).edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(arrayList);
+        editor.putString("account_list", json);
+        editor.apply();
+    }
+
+    public void loadData() {
+        SharedPreferences sharedPreferences = getSharedPreferences("account", MODE_PRIVATE);
+        Gson gson = new Gson();
+        String json = sharedPreferences.getString("account_list", null);
+        Type type = new TypeToken<ArrayList<AccountData>>() {}.getType();
+        arrayList = gson.fromJson(json, type);
+
+        if (arrayList == null) {
+            arrayList = new ArrayList<>();
+        }
+    }
 
     public void finish() {
         super.finish();

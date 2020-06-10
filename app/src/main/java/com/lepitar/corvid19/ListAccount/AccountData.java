@@ -7,14 +7,34 @@ public class AccountData {
     private String k;
     private String overlap;
     private String website;
+    private String smskey;
+    private Boolean sms;
 
-    public AccountData(String name, String schoolName, String birth, String k, String overlap, String website) {
+    public String getSmskey() {
+        return smskey;
+    }
+
+    public void setSmskey(String smskey) {
+        this.smskey = smskey;
+    }
+
+    public AccountData(String name, String schoolName, String birth, String k, String overlap, String smskey, String website, Boolean sms) {
         this.name = name;
         this.schoolName = schoolName;
         this.birth = birth;
         this.k = k;
         this.overlap = overlap;
         this.website = website;
+        this.sms = sms;
+        this.smskey = smskey;
+    }
+
+    public Boolean getSms() {
+        return sms;
+    }
+
+    public void setSms(Boolean sms) {
+        this.sms = sms;
     }
 
     public String getName() {

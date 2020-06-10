@@ -77,9 +77,14 @@ public class settingActivity extends AppCompatActivity {
 
         SharedPreferences sharedPreferences = getSharedPreferences("school", MODE_PRIVATE);
 
-        school.setText(sharedPreferences.getString("schoolName","학생정보가 없습니다.") );
-        name.setText(sharedPreferences.getString("name",""));
-        birth.setText(sharedPreferences.getString("birth",""));
+        if (!sharedPreferences.getString("sms_key", "").isEmpty()) {
+            school.setText(sharedPreferences.getString("name","학생정보가 없습니다.")
+                    + "(" + sharedPreferences.getString("sms_key","") + ")");
+        } else {
+            school.setText(sharedPreferences.getString("schoolName","학생정보가 없습니다.") );
+            name.setText(sharedPreferences.getString("name",""));
+            birth.setText(sharedPreferences.getString("birth",""));
+        }
         tv_alarm.setText(getSharedPreferences("daily alarm", MODE_PRIVATE).getString("tv_time", "시간"));
         alarm.setChecked(getSharedPreferences("daily alarm", MODE_PRIVATE).getBoolean("checked", false));
 

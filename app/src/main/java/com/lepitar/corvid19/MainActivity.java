@@ -137,6 +137,7 @@ public class MainActivity extends AppCompatActivity {
             SharedPreferences sharedPreferences = getSharedPreferences("school", MODE_PRIVATE);
             SharedPreferences add = getSharedPreferences("add", MODE_PRIVATE);
             SharedPreferences.Editor editor = sharedPreferences.edit();
+            SharedPreferences.Editor addeditor = add.edit();
 
             if ("SUCCESS".equals(result)) {
                 editor.putString("name", name.getText().toString());
@@ -145,12 +146,12 @@ public class MainActivity extends AppCompatActivity {
                 editor.putString("k", qstnCrtfcNoEncpt);
                 editor.putString("overlap", add_info_edit.getText().toString());
                 editor.putBoolean("autologin", true);
-                editor.apply();
                 if (add.getBoolean("add", false)) {
-                    arrayList.add(new AccountData(name.getText().toString(), schulNm.getText().toString(), birth.getText().toString(), qstnCrtfcNoEncpt, add_info_edit.getText().toString(), getSharedPreferences("school", MODE_PRIVATE).getString("website", "")));
+                    arrayList.add(new AccountData(name.getText().toString(), schulNm.getText().toString(), birth.getText().toString(), qstnCrtfcNoEncpt, add_info_edit.getText().toString(), "" ,getSharedPreferences("school", MODE_PRIVATE).getString("website", ""), false));
                     saveData();
                     startActivity(new Intent(getApplicationContext(), Survey.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
-                    editor.putBoolean("add", false);
+                    addeditor.putBoolean("add", false);
+                    addeditor.apply();
                 } else {
                     if (sharedPreferences.getBoolean("autologin", false)) {
                         Toast.makeText(MainActivity.this, "자동으로 학생정보 확인됨", Toast.LENGTH_SHORT).show();
@@ -160,6 +161,7 @@ public class MainActivity extends AppCompatActivity {
                     startActivity(new Intent(getApplicationContext(), Survey.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
                     overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                 }
+                editor.apply();
                 arrayList.clear();
             } else if ("ADIT_CRTFC_NO".equals(result)) {
                 Toast.makeText(MainActivity.this, "동일한 이름을 가진 학생이 있어, 추가정보를 입력해주시기 바랍니다.\n주민등록번호 마지막 2자리", Toast.LENGTH_SHORT).show();
@@ -203,8 +205,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void saveData() {
-        SharedPreferences sharedPreferences = getSharedPreferences("school", MODE_PRIVATE);
-        SharedPreferences.Editor editor = getSharedPreferences("school", MODE_PRIVATE).edit();
+        SharedPreferences.Editor editor = getSharedPreferences("account", MODE_PRIVATE).edit();
         Gson gson = new Gson();
         String json = gson.toJson(arrayList);
         editor.putString("account_list", json);
@@ -212,7 +213,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void loadData() {
-        SharedPreferences sharedPreferences = getSharedPreferences("school", MODE_PRIVATE);
+        SharedPreferences sharedPreferences = getSharedPreferences("account", MODE_PRIVATE);
         Gson gson = new Gson();
         String json = sharedPreferences.getString("account_list", null);
         Type type = new TypeToken<ArrayList<AccountData>>() {}.getType();

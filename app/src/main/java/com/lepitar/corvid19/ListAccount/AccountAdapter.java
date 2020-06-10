@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -14,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.lepitar.corvid19.MainActivity;
 import com.lepitar.corvid19.R;
 import com.lepitar.corvid19.SearchSchool.SchoolData;
+import com.lepitar.corvid19.SmsActivity;
 
 import java.util.ArrayList;
 
@@ -37,7 +39,11 @@ public class AccountAdapter extends RecyclerView.Adapter<AccountAdapter.CustomVi
 
     @Override
     public void onBindViewHolder(@NonNull final AccountAdapter.CustomViewHolder holder, final int position) {
-        holder.account_list.setText(accountData.get(position).getName() + "(" + accountData.get(position).getBirth() + ")");
+        if (accountData.get(position).getBirth().isEmpty()) {
+            holder.account_list.setText(accountData.get(position).getName() + "(" + accountData.get(position).getSmskey() + ")");
+        } else {
+            holder.account_list.setText(accountData.get(position).getName() + "(" + accountData.get(position).getBirth() + ")");
+        }
         holder.account_list.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -45,16 +51,28 @@ public class AccountAdapter extends RecyclerView.Adapter<AccountAdapter.CustomVi
                 SharedPreferences sharedPreferences = context.getSharedPreferences("school", MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 SharedPreferences.Editor add =  context.getSharedPreferences("add", MODE_PRIVATE).edit();
+                if (accountData.get(position).getSms()) {
+                    editor.putBoolean("sms", true);
+                } else {
+                    editor.putBoolean("sms", false);
+
+                }
                 editor.putString("name", accountData.get(position).getName());
                 editor.putString("schoolName",accountData.get(position).getSchoolName());
                 editor.putString("birth", accountData.get(position).getBirth());
                 editor.putString("k", accountData.get(position).getK());
                 editor.putString("overlap", accountData.get(position).getOverlap());
                 editor.putString("website", accountData.get(position).getWebsite());
+                editor.putString("sms_key", accountData.get(position).getSmskey());
+                editor.putBoolean("autologin",true);
                 add.putBoolean("add", false);
-                context.startActivity(new Intent(v.getContext(), MainActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
                 add.apply();
                 editor.apply();
+                if (accountData.get(position).getSms()) {
+                    context.startActivity(new Intent(v.getContext(), SmsActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+                } else {
+                    context.startActivity(new Intent(v.getContext(), MainActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+                }
             }
         });
     }
