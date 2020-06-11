@@ -21,7 +21,6 @@ import java.io.IOException;
 public class SplashActivity extends AppCompatActivity {
     TextView progress;
     String result, schoolCode;
-    CustomDialog customDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +32,6 @@ public class SplashActivity extends AppCompatActivity {
         new CheckVersion().execute();
 
         SharedPreferences sharedPreferences = getSharedPreferences("school", MODE_PRIVATE);
-        SharedPreferences daily = getSharedPreferences("daily alarm", MODE_PRIVATE);
 
         if (sharedPreferences.getBoolean("autologin", false)) {
             new Confirm().execute();
@@ -155,8 +153,9 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     public void checkAccount(String schoolCode, String schoolName, String stdName, String bornDate) throws JSONException, IOException {
+        SharedPreferences sharedPreferences = getSharedPreferences("school", MODE_PRIVATE);
         Document jsoup = Jsoup.connect(getSharedPreferences("school", MODE_PRIVATE).getString("website","")+"/stv_cvd_co00_012.do")
-                .data("schulCode",schoolCode,"schulNm",schoolName,"pName",stdName,"frnoRidno",bornDate)
+                .data("schulCode",schoolCode,"schulNm",schoolName,"pName",stdName,"frnoRidno",bornDate,"aditCrtfcNo",sharedPreferences.getString("overlap", ""))
                 .method(Connection.Method.POST)
                 .timeout(10000)
                 .ignoreContentType(true).get();

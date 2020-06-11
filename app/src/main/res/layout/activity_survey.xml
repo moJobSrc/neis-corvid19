@@ -144,34 +144,40 @@
                         android:text="기침"
                         android:layout_marginLeft="10dp"/>
                     <CheckBox
-                        android:id="@+id/rspns04"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="인후통"
-                        android:layout_marginLeft="10dp"/>
-                    <CheckBox
                         android:id="@+id/rspns05"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="호흡곤란"
                         android:layout_marginLeft="10dp"/>
                     <CheckBox
-                        android:id="@+id/rspns06"
+                        android:id="@+id/rspns13"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="설사"
+                        android:text="오한"
                         android:layout_marginLeft="10dp"/>
                     <CheckBox
-                        android:id="@+id/rspns10"
+                        android:id="@+id/rspns14"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="메스꺼움(오심)"
+                        android:text="근육통"
+                        android:layout_marginLeft="10dp"/>
+                    <CheckBox
+                        android:id="@+id/rspns15"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="두통"
+                        android:layout_marginLeft="10dp"/>
+                    <CheckBox
+                        android:id="@+id/rspns04"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="두통"
                         android:layout_marginLeft="10dp"/>
                     <CheckBox
                         android:id="@+id/rspns11"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="미각 후각 마비"
+                        android:text="후각‧미각 소실"
                         android:layout_marginLeft="10dp"/>
                 </org.apmem.tools.layouts.FlowLayout>
             </LinearLayout>

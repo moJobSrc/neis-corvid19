@@ -45,7 +45,7 @@ public class settingActivity extends AppCompatActivity {
 
     TextView tv_alarm,name,school,birth;
     LinearLayout reset;
-    Switch alarm;
+    Switch alarm, auto_submit;
     ImageView back;
     AdView mAdView;
     LinearLayout universe_account;
@@ -74,8 +74,19 @@ public class settingActivity extends AppCompatActivity {
         school = findViewById(R.id.school);
         birth = findViewById(R.id.birth);
         alarm = findViewById(R.id.alarm);
+        auto_submit = findViewById(R.id.auto_submit);
 
-        SharedPreferences sharedPreferences = getSharedPreferences("school", MODE_PRIVATE);
+        final SharedPreferences sharedPreferences = getSharedPreferences("school", MODE_PRIVATE);
+        final SharedPreferences.Editor editor = getSharedPreferences("school", MODE_PRIVATE).edit();
+        auto_submit.setChecked(sharedPreferences.getBoolean("auto_submit", false));
+
+        auto_submit.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                editor.putBoolean("auto_submit", isChecked);
+                editor.apply();
+            }
+        });
 
         if (!sharedPreferences.getString("sms_key", "").isEmpty()) {
             school.setText(sharedPreferences.getString("name","학생정보가 없습니다.")
@@ -212,7 +223,10 @@ public class settingActivity extends AppCompatActivity {
         @Override
         public void onClick(View v) {
             SharedPreferences.Editor editor = getSharedPreferences("school", MODE_PRIVATE).edit();
+            SharedPreferences.Editor addeditor = getSharedPreferences("add", MODE_PRIVATE).edit();
             editor.clear();
+            addeditor.putBoolean("add", false);
+            addeditor.apply();
             editor.apply();
             customDialog.dismiss();
             Toast.makeText(mContext, "학생정보를 지웠습니다", Toast.LENGTH_SHORT).show();

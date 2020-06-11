@@ -147,9 +147,9 @@ public class SmsActivity extends AppCompatActivity {
                         arrayList.add(new AccountData(name.getText().toString(), "", "", qstnCrtfcNoEncpt, "" , sms_key.getText().toString() ,getSharedPreferences("school", MODE_PRIVATE).getString("website", ""), true));
                         saveData();
                         startActivity(new Intent(getApplicationContext(), Survey.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
-                        addeditor.putBoolean("add", false);
-                        addeditor.apply();
                     }
+                    addeditor.putBoolean("add", false);
+                    addeditor.apply();
                     editor.apply();
                     startActivity(new Intent(getApplicationContext(), TeacherActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
                     overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);

@@ -124,7 +124,7 @@
                         android:fontFamily="@font/nanumsquareb"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="생년월일 : "
+                        android:text="추가인증 : "
                         android:gravity="center"
                         android:textColor="#000"
                         android:textSize="15sp"

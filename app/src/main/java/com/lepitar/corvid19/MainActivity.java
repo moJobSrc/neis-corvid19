@@ -62,6 +62,7 @@ public class MainActivity extends AppCompatActivity {
         schulNm.setText(sharedPreferences.getString("schoolName",""));
         name.setText(sharedPreferences.getString("name",""));
         birth.setText(sharedPreferences.getString("birth",""));
+        add_info_edit.setText(sharedPreferences.getString("overlap", ""));
 
         back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -150,8 +151,6 @@ public class MainActivity extends AppCompatActivity {
                     arrayList.add(new AccountData(name.getText().toString(), schulNm.getText().toString(), birth.getText().toString(), qstnCrtfcNoEncpt, add_info_edit.getText().toString(), "" ,getSharedPreferences("school", MODE_PRIVATE).getString("website", ""), false));
                     saveData();
                     startActivity(new Intent(getApplicationContext(), Survey.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
-                    addeditor.putBoolean("add", false);
-                    addeditor.apply();
                 } else {
                     if (sharedPreferences.getBoolean("autologin", false)) {
                         Toast.makeText(MainActivity.this, "자동으로 학생정보 확인됨", Toast.LENGTH_SHORT).show();
@@ -161,6 +160,8 @@ public class MainActivity extends AppCompatActivity {
                     startActivity(new Intent(getApplicationContext(), Survey.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
                     overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                 }
+                addeditor.putBoolean("add", false);
+                addeditor.apply();
                 editor.apply();
                 arrayList.clear();
             } else if ("ADIT_CRTFC_NO".equals(result)) {
@@ -185,7 +186,7 @@ public class MainActivity extends AppCompatActivity {
     public void getResult(String schoolCode, String schoolName, String stdName, String bornDate) throws JSONException, IOException {
         SharedPreferences sharedPreferences = getSharedPreferences("school", MODE_PRIVATE);
         Document jsoup = Jsoup.connect(getSharedPreferences("school", MODE_PRIVATE).getString("website","")+"/stv_cvd_co00_012.do")
-                .data("schulCode",schoolCode,"schulNm",schoolName,"pName",stdName,"frnoRidno",bornDate,"aditCrtfcNo",sharedPreferences.getString("overlap", ""))
+                .data("schulCode",schoolCode,"schulNm",schoolName,"pName",stdName,"frnoRidno",bornDate,"aditCrtfcNo",sharedPreferences.getString("overlap", add_info_edit.getText().toString()))
                 .method(Connection.Method.POST)
                 .timeout(10000)
                 .ignoreContentType(true).get();

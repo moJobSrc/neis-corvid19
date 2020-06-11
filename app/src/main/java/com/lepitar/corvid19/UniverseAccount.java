@@ -103,6 +103,7 @@ public class UniverseAccount extends AppCompatActivity {
                         customDialog.dismiss();
                     }
                 };
+
                 customDialog = new CustomDialog(UniverseAccount.this, "해당 학생정보를 지우시겠습니까?", btnok);
                 customDialog.setCancelable(false);
                 customDialog.setCanceledOnTouchOutside(false);

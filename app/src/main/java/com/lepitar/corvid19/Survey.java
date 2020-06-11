@@ -31,7 +31,7 @@ public class Survey extends AppCompatActivity {
     RadioButton rspns01,rspns01_2, rspns07,rspns07_1,
             rspns08, rspns08_1, rspns09, rspns09_1;
 
-    CheckBox rspns02, rspns03, rspns04, rspns05, rspns06, rspns10, rspns11;
+    CheckBox rspns02, rspns03, rspns05, rspns13, rspns14, rspns15, rspns04, rspns11;
 
     TextView prb1,prb2,prb3,prb4,prb5;
     ImageView setting;
@@ -49,7 +49,7 @@ public class Survey extends AppCompatActivity {
 
     String url = "";
 
-    String check01,check02,check03,check04,check05,check06,check07,check08,check09,check10,check11;
+    String check01,check02,check03,check04,check05,check07,check08,check09,check11,check13,check14,check15;
 
     /*
     2,3,4,5,6,10,11
@@ -77,7 +77,7 @@ public class Survey extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_verficate);
+        setContentView(R.layout.activity_survey);
         //findView
         findView();
         //색상변경
@@ -86,14 +86,18 @@ public class Survey extends AppCompatActivity {
         setCheckBoxListener();
 
         url = getSharedPreferences("school", MODE_PRIVATE).getString("website","");
+        if (getSharedPreferences("school", MODE_PRIVATE).getBoolean("auto_submit",false)) {
+            checkBoxValue();
+            new Submit().execute();
+        }
 
         confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (rspns02.isChecked() || rspns02.isChecked() || rspns03.isChecked() || rspns04.isChecked()
-                        || rspns05.isChecked() || rspns06.isChecked() || rspns10.isChecked() || rspns11.isChecked()) {
+                if (rspns02.isChecked() || rspns03.isChecked() || rspns04.isChecked()
+                        || rspns05.isChecked() || rspns13.isChecked() || rspns14.isChecked() || rspns15.isChecked() || rspns11.isChecked()) {
                     if (rspns01_2.isChecked() || rspns03.isChecked() || rspns04.isChecked()
-                    || rspns05.isChecked() || rspns06.isChecked() || rspns10.isChecked() || rspns11.isChecked() || rspns07_1.isChecked() || rspns08_1.isChecked() || rspns09_1.isChecked()) {
+                    || rspns05.isChecked() || rspns13.isChecked() || rspns14.isChecked() || rspns15.isChecked() || rspns11.isChecked() || rspns07_1.isChecked() || rspns08_1.isChecked() || rspns09_1.isChecked()) {
                         customDialog = new CustomDialog(Survey.this, "코로나19 유증상 항목을 선택/응답하였습니다.\n응답 내용을 제출하시겠습니까?", btnok);
                         customDialog.setCancelable(true);
                         customDialog.show();
@@ -162,12 +166,13 @@ public class Survey extends AppCompatActivity {
                 intent.putExtra("check03", check03); //문제2
                 intent.putExtra("check04", check04); //문제2
                 intent.putExtra("check05", check05);//문제2
-                intent.putExtra("check06", check06);//문제2
-                intent.putExtra("check07", check07);//문제3
-                intent.putExtra("check08", check08);//문제4
-                intent.putExtra("check09", check09);//문제5
-                intent.putExtra("check10", check10);//문제2
-                intent.putExtra("check11", check11);//문제2
+                intent.putExtra("check07", check07);//문제2
+                intent.putExtra("check08", check08);//문제3
+                intent.putExtra("check09", check09);//문제4
+                intent.putExtra("check11", check11);//문제5
+                intent.putExtra("check13", check13);//문제2
+                intent.putExtra("check14", check14);//문제2
+                intent.putExtra("check15", check15);//문제2
                 startActivity(intent);
                 overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                 finish();
@@ -182,7 +187,7 @@ public class Survey extends AppCompatActivity {
                 .data("rtnRsltCode","SUCCESS","qstnCrtfcNoEncpt",qstnCrtfcNoEncpt
                 ,"schulNm","","stdntName",""
                 ,"rspns01",check01,"rspns02",check02,"rspns03",check03,"rspns04",check04,"rspns05",check05
-                ,"rspns06",check06,"rspns07",check07,"rspns08",check08,"rspns09",check09,"rspns10",check10,"rspns11",check10)
+                ,"rspns07",check07,"rspns08",check08,"rspns09",check09,"rspns11",check11,"rspns13",check13,"rspns14",check14,"rspns15",check15)
                 .timeout(10000).ignoreContentType(true).get();
         JSONObject jsonObject = (JSONObject) new JSONObject(doc.text()).get("resultSVO");
         result = jsonObject.getString("rtnRsltCode");
@@ -207,8 +212,9 @@ public class Survey extends AppCompatActivity {
         rspns03 = findViewById(R.id.rspns03);
         rspns04 = findViewById(R.id.rspns04);
         rspns05 = findViewById(R.id.rspns05);
-        rspns06 = findViewById(R.id.rspns06);
-        rspns10 = findViewById(R.id.rspns10);
+        rspns13 = findViewById(R.id.rspns13);
+        rspns14 = findViewById(R.id.rspns14);
+        rspns15 = findViewById(R.id.rspns15);
         rspns11 = findViewById(R.id.rspns11);
 
         //텍스트뷰
@@ -228,20 +234,22 @@ public class Survey extends AppCompatActivity {
             public void onClick(View view)
             {
                 switch (view.getId()) {
-                    case R.id.rspns04:
-                    case R.id.rspns05:
-                    case R.id.rspns06:
-                    case R.id.rspns10:
-                    case R.id.rspns11:
                     case R.id.rspns03:
+                    case R.id.rspns05:
+                    case R.id.rspns13:
+                    case R.id.rspns14:
+                    case R.id.rspns04:
+                    case R.id.rspns11:
+                    case R.id.rspns15:
                         rspns02.setChecked(false);
                         break;
                     case R.id.rspns02:
                         rspns03.setChecked(false);
                         rspns04.setChecked(false);
                         rspns05.setChecked(false);
-                        rspns06.setChecked(false);
-                        rspns10.setChecked(false);
+                        rspns13.setChecked(false);
+                        rspns14.setChecked(false);
+                        rspns15.setChecked(false);
                         rspns11.setChecked(false);
                         break;
                 }
@@ -252,8 +260,9 @@ public class Survey extends AppCompatActivity {
         rspns03.setOnClickListener(Listener);
         rspns04.setOnClickListener(Listener);
         rspns05.setOnClickListener(Listener);
-        rspns06.setOnClickListener(Listener);
-        rspns10.setOnClickListener(Listener);
+        rspns13.setOnClickListener(Listener);
+        rspns14.setOnClickListener(Listener);
+        rspns15.setOnClickListener(Listener);
         rspns11.setOnClickListener(Listener);
     }
 
@@ -286,8 +295,9 @@ public class Survey extends AppCompatActivity {
         check03 = "";
         check04 = "";
         check05 = "";
-        check06 = "";
-        check10 = "";
+        check13 = "";
+        check14 = "";
+        check15 = "";
         check11 = "";
         if (rspns01.isChecked()) { //문제1
             check01 = "1";
@@ -310,13 +320,17 @@ public class Survey extends AppCompatActivity {
             check02 = "";
             check05 = "1";
         }
-        if (rspns06.isChecked()) { //문제2 6
+        if (rspns13.isChecked()) { //문제2 6
             check02 = "";
-            check06 = "1";
+            check13 = "1";
         }
-        if (rspns10.isChecked()) { //문제2 7
+        if (rspns14.isChecked()) { //문제2 7
             check02 = "";
-            check10 = "1";
+            check14 = "1";
+        }
+        if (rspns15.isChecked()) { //문제2 8
+            check02 = "";
+            check15 = "1";
         }
         if (rspns11.isChecked()) { //문제2 8
             check02 = "";

@@ -3,6 +3,9 @@ package com.lepitar.corvid19;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -14,6 +17,8 @@ import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.ads.initialization.InitializationStatus;
 import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
+
+import static android.content.Context.MODE_PRIVATE;
 
 public class FinsihDialog extends Dialog implements View.OnClickListener {
     private TextView btn_cancel;
@@ -58,7 +63,13 @@ public class FinsihDialog extends Dialog implements View.OnClickListener {
                 dismiss();
                 break;
             case R.id.btn_ok:
-                ((Activity) context).finish();
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    ((Activity) context).finishAndRemoveTask();
+                }
+                SharedPreferences.Editor addeditor = context.getSharedPreferences("add", MODE_PRIVATE).edit();
+                addeditor.putBoolean("add", false);
+                addeditor.apply();
+                ((Activity) context).finishAffinity();
                 System.exit(0);
                 break;
         }
