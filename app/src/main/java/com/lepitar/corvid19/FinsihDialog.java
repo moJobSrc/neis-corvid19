@@ -23,7 +23,6 @@ import static android.content.Context.MODE_PRIVATE;
 public class FinsihDialog extends Dialog implements View.OnClickListener {
     private TextView btn_cancel;
     private TextView btn_ok;
-    private TextView text_alarm;
     private AdView adView;
 
     Context context;
@@ -40,7 +39,6 @@ public class FinsihDialog extends Dialog implements View.OnClickListener {
 
         btn_cancel = (TextView) findViewById(R.id.btn_cancel);
         btn_ok = (TextView) findViewById(R.id.btn_ok);
-        text_alarm = findViewById(R.id.text_dialog);
 
         MobileAds.initialize(context, new OnInitializationCompleteListener() {
             @Override

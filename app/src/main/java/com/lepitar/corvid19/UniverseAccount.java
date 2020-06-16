@@ -128,7 +128,7 @@ public class UniverseAccount extends AppCompatActivity {
     public void loadData() {
         SharedPreferences sharedPreferences = getSharedPreferences("account", MODE_PRIVATE);
         Gson gson = new Gson();
-        String json = sharedPreferences.getString("account_list", null);
+        String json = sharedPreferences.getString("account_list", "");
         Type type = new TypeToken<ArrayList<AccountData>>() {}.getType();
         arrayList = gson.fromJson(json, type);
 

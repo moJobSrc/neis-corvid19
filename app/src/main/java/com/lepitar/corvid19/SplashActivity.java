@@ -181,6 +181,13 @@ public class SplashActivity extends AppCompatActivity {
                 .ignoreContentType(true).get();
         JSONObject jsonObject = (JSONObject) new JSONObject(jsoup.text()).get("resultSVO");
         schoolCode = jsonObject.getString("schulCode");
+        if (schoolCode.isEmpty()) {
+            runOnUiThread(new Runnable() {
+                public void run() {
+                    Toast.makeText(getApplicationContext(), "지역 정보를 잘못 선택하신 것 같습니다.", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
     }
 
     @Override
