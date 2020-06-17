@@ -39,7 +39,7 @@ public class SchoolAdapter extends RecyclerView.Adapter<SchoolAdapter.CustomView
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final SchoolAdapter.CustomViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final SchoolAdapter.CustomViewHolder holder, final int position) {
         holder.schoolname.setText(schoolData.get(position).getSchoolName());
         holder.schoolname.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -47,12 +47,13 @@ public class SchoolAdapter extends RecyclerView.Adapter<SchoolAdapter.CustomView
                 Context context = v.getContext();
                 SharedPreferences sharedPreferences = context.getSharedPreferences("school", MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
-                String schoolName = holder.schoolname.getText().toString();
-                editor.putString("schoolName", schoolName);
+                editor.putString("schoolName", schoolData.get(position).getSchoolName());
+                editor.putString("schoolCode", schoolData.get(position).getShculCode());
                 editor.apply();
                 context.startActivity(new Intent(v.getContext(), MainActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
             }
         });
+
     }
 
     @Override

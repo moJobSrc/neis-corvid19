@@ -78,6 +78,7 @@ public class SchulSearch extends AppCompatActivity {
     private class Test extends AsyncTask<Void,Void,Void> {
         String schoolName = schulNm.getText().toString();
         ProgressDialog dialog = new ProgressDialog(SchulSearch.this);
+        String schulCode = "";
 
         @Override
         protected void onPreExecute() {
@@ -98,7 +99,8 @@ public class SchulSearch extends AppCompatActivity {
                 Document doc = Jsoup.connect(url+"/stv_cvd_co00_003.do").data("schulNm",schoolName).timeout(10000).get();
                 Elements ele = doc.select("tr td a");
                 for(Element element : ele) {
-                    newList.add(new SchoolData(element.text()));
+                    schulCode = element.attr("onClick").replace("javscript:selectSchul(","").replace(");","").replace("'", "").split(",")[0];
+                    newList.add(new SchoolData(element.text(), schulCode));
                 }
             } catch (IOException e) {
                 runOnUiThread(new Runnable() {

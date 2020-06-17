@@ -20,13 +20,12 @@ import java.io.IOException;
 
 public class SplashActivity extends AppCompatActivity {
     TextView progress;
-    String result, schoolCode;
+    String result = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
-        result = "";
         progress = findViewById(R.id.progress);
 
         new CheckVersion().execute();
@@ -37,7 +36,7 @@ public class SplashActivity extends AppCompatActivity {
             new Confirm().execute();
         } else {
             Handler hd = new Handler();
-            hd.postDelayed(new splashhandler(), 1500);
+            hd.postDelayed(new splashhandler(), 1000);
         }
     }
 
@@ -127,8 +126,7 @@ public class SplashActivity extends AppCompatActivity {
                 if (sharedPreferences.getBoolean("sms", false)) {
                     checkSms(sharedPreferences.getString("sms_key", ""),sharedPreferences.getString("name",""));
                 } else {
-                    getSchoolCode(schoolName);
-                    checkAccount(schoolCode, schoolName, stdName, bornDate);
+                    checkAccount(schoolName, stdName, bornDate);
                 }
             } catch (IOException e) {
                 runOnUiThread(new Runnable() {
@@ -148,14 +146,14 @@ public class SplashActivity extends AppCompatActivity {
         protected void onPostExecute(Void dummy) {
             super.onPostExecute(dummy);
             Handler hd = new Handler();
-            hd.postDelayed(new splashhandler(), 1500);
+            hd.postDelayed(new splashhandler(), 1000);
         }
     }
 
-    public void checkAccount(String schoolCode, String schoolName, String stdName, String bornDate) throws JSONException, IOException {
+    public void checkAccount(String schoolName, String stdName, String bornDate) throws JSONException, IOException {
         SharedPreferences sharedPreferences = getSharedPreferences("school", MODE_PRIVATE);
-        Document jsoup = Jsoup.connect(getSharedPreferences("school", MODE_PRIVATE).getString("website","")+"/stv_cvd_co00_012.do")
-                .data("schulCode",schoolCode,"schulNm",schoolName,"pName",stdName,"frnoRidno",bornDate,"aditCrtfcNo",sharedPreferences.getString("overlap", ""))
+        Document jsoup = Jsoup.connect(sharedPreferences.getString("website","")+"/stv_cvd_co00_012.do")
+                .data("schulCode",sharedPreferences.getString("schoolCode", ""),"schulNm",schoolName,"pName",stdName,"frnoRidno",bornDate,"aditCrtfcNo",sharedPreferences.getString("overlap", ""))
                 .method(Connection.Method.POST)
                 .timeout(10000)
                 .ignoreContentType(true).get();
@@ -166,28 +164,11 @@ public class SplashActivity extends AppCompatActivity {
     public void checkSms(String number, String pName) throws JSONException, IOException {
         Document jsoup = Jsoup.connect(getSharedPreferences("school", MODE_PRIVATE).getString("website","")+"/stv_cvd_co00_011.do")
                 .data("qstnCrtfcNoEncpt","","pName",pName,"qstnCrtfcNo",number)
-                .method(Connection.Method.POST)
                 .timeout(10000)
+                .method(Connection.Method.POST)
                 .ignoreContentType(true).get();
         JSONObject jsonObject = (JSONObject) new JSONObject(jsoup.text()).get("resultSVO");
         result = jsonObject.getString("rtnRsltCode");
-    }
-
-    public void getSchoolCode(String schoolName) throws Exception {
-        Document jsoup = Jsoup.connect(getSharedPreferences("school", MODE_PRIVATE).getString("website","")+"/stv_cvd_co00_004.do")
-                .data("schulNm",schoolName)
-                .method(Connection.Method.POST)
-                .timeout(10000)
-                .ignoreContentType(true).get();
-        JSONObject jsonObject = (JSONObject) new JSONObject(jsoup.text()).get("resultSVO");
-        schoolCode = jsonObject.getString("schulCode");
-        if (schoolCode.isEmpty()) {
-            runOnUiThread(new Runnable() {
-                public void run() {
-                    Toast.makeText(getApplicationContext(), "지역 정보를 잘못 선택하신 것 같습니다.", Toast.LENGTH_SHORT).show();
-                }
-            });
-        }
     }
 
     @Override

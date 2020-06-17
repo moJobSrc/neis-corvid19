@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
     EditText schulNm, name, birth, add_info_edit;
     TextView add_info;
     Button search_school, confirm;
-    String result, schoolCode,qstnCrtfcNoEncpt;
+    String result,qstnCrtfcNoEncpt;
     ImageView back,setting;
 
     ArrayList<AccountData> arrayList = new ArrayList<>();
@@ -97,6 +97,7 @@ public class MainActivity extends AppCompatActivity {
         String schoolName = schulNm.getText().toString();
         String stdName = name.getText().toString();
         String bornDate = birth.getText().toString();
+        String tmi = add_info_edit.getText().toString();
         ProgressDialog dialog = new ProgressDialog(MainActivity.this);
 
         @Override
@@ -114,8 +115,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected Void doInBackground(Void... params) {
             try {
-                getSchoolCode(schoolName);
-                getResult(schoolCode,schoolName,stdName,bornDate);
+                getResult(schoolName,stdName,bornDate, tmi);
             } catch (JSONException e) {
                 e.printStackTrace();
             } catch (IOException e) {
@@ -183,33 +183,17 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void getResult(String schoolCode, String schoolName, String stdName, String bornDate) throws JSONException, IOException {
+    public void getResult(String schoolName, String stdName, String bornDate,String add_info) throws JSONException, IOException {
         SharedPreferences sharedPreferences = getSharedPreferences("school", MODE_PRIVATE);
-        Document jsoup = Jsoup.connect(getSharedPreferences("school", MODE_PRIVATE).getString("website","")+"/stv_cvd_co00_012.do")
-                .data("schulCode",schoolCode,"schulNm",schoolName,"pName",stdName,"frnoRidno",bornDate,"aditCrtfcNo",sharedPreferences.getString("overlap", add_info_edit.getText().toString()))
+
+        Document jsoup = Jsoup.connect(sharedPreferences.getString("website","")+"/stv_cvd_co00_012.do")
+                .data("schulCode",sharedPreferences.getString("schoolCode", ""),"schulNm",schoolName,"pName",stdName,"frnoRidno",bornDate,"aditCrtfcNo",add_info)
                 .method(Connection.Method.POST)
                 .timeout(10000)
                 .ignoreContentType(true).get();
         JSONObject jsonObject = (JSONObject) new JSONObject(jsoup.text()).get("resultSVO");
         result = jsonObject.getString("rtnRsltCode");
         qstnCrtfcNoEncpt = jsonObject.getString("qstnCrtfcNoEncpt");
-    }
-
-    public void getSchoolCode(String schoolName) throws Exception {
-        Document jsoup = Jsoup.connect(getSharedPreferences("school", MODE_PRIVATE).getString("website","")+"/stv_cvd_co00_004.do")
-                .data("schulNm",schoolName)
-                .method(Connection.Method.POST)
-                .timeout(10000)
-                .ignoreContentType(true).get();
-        JSONObject jsonObject = (JSONObject) new JSONObject(jsoup.text()).get("resultSVO");
-        schoolCode = jsonObject.getString("schulCode");
-        if (schoolCode.isEmpty()) {
-            runOnUiThread(new Runnable() {
-                public void run() {
-                    Toast.makeText(getApplicationContext(), "지역 정보를 잘못 선택하신 것 같습니다.", Toast.LENGTH_SHORT).show();
-                }
-            });
-        }
     }
 
     public void saveData() {

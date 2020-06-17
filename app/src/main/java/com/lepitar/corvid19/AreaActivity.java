@@ -93,7 +93,7 @@ public class AreaActivity extends AppCompatActivity {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         if (sen.isChecked()) {
             editor.putString("website","https://eduro.sen.go.kr");
-        }
+    }
         if (ice.isChecked()) {
             editor.putString("website","https://eduro.ice.go.kr");
         }
@@ -128,7 +128,8 @@ public class AreaActivity extends AppCompatActivity {
             editor.putString("website","https://eduro.cne.go.kr");
         }
         if (gbe.isChecked()) {
-            editor.putString("website","https://eduro.gbe.go.kr");
+            //경북
+            editor.putString("website","https://eduro.gbe.kr");
         }
         if (gne.isChecked()) {
             editor.putString("website","https://eduro.gne.go.kr");
