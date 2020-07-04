@@ -2,19 +2,19 @@ package com.lepitar.corvid19.SearchSchool;
 
 public class SchoolData {
     private String schoolName;
-    private String shculCode;
+    private String schulCode;
 
-    public SchoolData(String schoolName, String shculCode) {
+    public SchoolData(String schoolName, String schulCode) {
         this.schoolName = schoolName;
-        this.shculCode = shculCode;
+        this.schulCode = schulCode;
     }
 
-    public String getShculCode() {
-        return shculCode;
+    public String getSchulCode() {
+        return schulCode;
     }
 
-    public void setShculCode(String shculCode) {
-        this.shculCode = shculCode;
+    public void setSchulCode(String schulCode) {
+        this.schulCode = schulCode;
     }
 
     public String getSchoolName() {

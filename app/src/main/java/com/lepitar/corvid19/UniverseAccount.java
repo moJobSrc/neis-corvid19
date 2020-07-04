@@ -75,9 +75,8 @@ public class UniverseAccount extends AppCompatActivity {
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SharedPreferences.Editor editor = getSharedPreferences("add",MODE_PRIVATE).edit();
-                editor.putBoolean("add", true);
-                editor.apply();
+                Intent intent = new Intent(getApplicationContext(), VerfyType.class);
+                intent.putExtra("add", false);
                 startActivity(new Intent(getApplicationContext(), VerfyType.class));
                 overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
             }

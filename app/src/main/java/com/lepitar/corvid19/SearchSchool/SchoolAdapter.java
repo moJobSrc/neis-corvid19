@@ -45,12 +45,10 @@ public class SchoolAdapter extends RecyclerView.Adapter<SchoolAdapter.CustomView
             @Override
             public void onClick(View v) {
                 Context context = v.getContext();
-                SharedPreferences sharedPreferences = context.getSharedPreferences("school", MODE_PRIVATE);
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putString("schoolName", schoolData.get(position).getSchoolName());
-                editor.putString("schoolCode", schoolData.get(position).getShculCode());
-                editor.apply();
-                context.startActivity(new Intent(v.getContext(), MainActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+                Intent intent = new Intent(v.getContext(), MainActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                intent.putExtra("schulNm",schoolData.get(position).getSchoolName());
+                intent.putExtra("schulCode",schoolData.get(position).getSchulCode());
+                context.startActivity(intent);
             }
         });
 

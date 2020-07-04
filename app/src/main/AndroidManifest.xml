@@ -13,7 +13,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".UniverseAccount"></activity>
+        <activity
+            android:name=".SettingsActivity"
+            android:label="설정"></activity>
+        <activity android:name=".UniverseAccount" />
 
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
@@ -21,7 +24,7 @@
 
         <activity
             android:name=".TeacherActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity android:name=".SmsActivity" />
         <activity
             android:name=".VerfyType"
