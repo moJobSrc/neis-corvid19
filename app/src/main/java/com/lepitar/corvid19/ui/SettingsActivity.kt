@@ -10,6 +10,7 @@ import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.preference.Preference
@@ -69,9 +70,12 @@ class SettingsActivity : AppCompatActivity() {
                     }
                     edit.run {
                         putLong("nextNotifyTime", calendar.timeInMillis)
-                        putString("time", SimpleDateFormat("HH:mm").format(calendar.time))
+                        putString("time", SimpleDateFormat("a hh:mm").format(calendar.time))
+                        putInt("hourofday", calendar.get(Calendar.HOUR_OF_DAY))
+                        putInt("minute", calendar.get(Calendar.MINUTE))
                         apply()
                     }
+                    Log.d("hourofday", calendar.toString())
                     diaryNotification(calendar, true)
                     alarm.summary = prefs.getString("time", "시간")
                 },hour,minute,android.text.format.DateFormat.is24HourFormat(context))

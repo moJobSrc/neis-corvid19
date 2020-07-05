@@ -6,14 +6,18 @@ import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Build
 import androidx.core.app.NotificationCompat
+import androidx.preference.Preference
+import androidx.preference.PreferenceManager
 import com.lepitar.corvid19.R
 import com.lepitar.corvid19.ui.SplashActivity
 import java.util.*
 
 class AlarmReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
+        val prefs : SharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
         val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         val notificationIntent = Intent(context, SplashActivity::class.java)
         notificationIntent.flags = (Intent.FLAG_ACTIVITY_CLEAR_TOP
@@ -44,10 +48,16 @@ class AlarmReceiver : BroadcastReceiver() {
         // 노티피케이션 동작시킴
         notificationManager.notify(1234, builder.build())
         val nextNotifyTime = Calendar.getInstance()
+        nextNotifyTime.apply {
+            timeInMillis = System.currentTimeMillis()
+            set(Calendar.HOUR_OF_DAY,prefs.getInt("hourofday", 0))
+            set(Calendar.MINUTE, prefs.getInt("minute", 0))
+            set(Calendar.SECOND, 0)
+        }
 
         // 내일 같은 시간으로 알람시간 결정
         nextNotifyTime.add(Calendar.DATE, 1)
-        val editor = context.getSharedPreferences("daily alarm", Context.MODE_PRIVATE).edit()
+        val editor = PreferenceManager.getDefaultSharedPreferences(context).edit()
         editor.putLong("nextNotifyTime", nextNotifyTime.timeInMillis)
         editor.apply()
     }
