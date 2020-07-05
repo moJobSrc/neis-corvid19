@@ -9,7 +9,7 @@ android {
     buildToolsVersion "29.0.3"
 
     defaultConfig {
-        applicationId "com.lepitar.corvid19"
+        applicationId "com.leeEunho.corvid19"
         minSdkVersion 16
         targetSdkVersion 29
         versionCode 23

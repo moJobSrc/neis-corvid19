@@ -54,6 +54,7 @@ class SettingsActivity : AppCompatActivity() {
             edit = prefs.edit()
             val calendar = Calendar.getInstance()
             student.summary = prefs.getString("name", "학생 정보가 없습니다.")
+            alarm.summary = prefs.getString("time", "시간")
             alarm.setOnPreferenceClickListener {
                 val hour = calendar.get(Calendar.HOUR_OF_DAY)
                 val minute = calendar.get(Calendar.MINUTE)
