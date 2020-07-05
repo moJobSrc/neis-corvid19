@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.CheckBox
@@ -33,21 +34,20 @@ class AreaActivity : AppCompatActivity() {
 /* 제주 */ //JEJU("jje.go.kr")
     lateinit var prefs : SharedPreferences
     lateinit var editor : SharedPreferences.Editor
+    var add : Boolean? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_area)
         prefs = PreferenceManager.getDefaultSharedPreferences(this)
         editor = prefs.edit()
+        add = intent.getBooleanExtra("add", false)
         next.setOnClickListener{
             checkArea()
-            if (prefs.getBoolean("sms", false)) {
-                startActivity(Intent(applicationContext, SmsActivity::class.java))
-            } else {
-                startActivity(Intent(applicationContext, MainActivity::class.java))
-            }
+            if (intent.getBooleanExtra("sms", false)) startActivity(Intent(applicationContext, SmsActivity::class.java).putExtra("add", add!!))
+            else startActivity(Intent(applicationContext, MainActivity::class.java).putExtra("add", add!!))
             overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
         }
-        setting.setOnClickListener{ startActivity(Intent(applicationContext, settingActivity::class.java)) }
+        setting.setOnClickListener{ startActivity(Intent(applicationContext, SettingsActivity::class.java)) }
         back.setOnClickListener { finish() }
     }
 
@@ -86,7 +86,6 @@ class AreaActivity : AppCompatActivity() {
             editor.putString("website", "https://eduro.jne.go.kr")
         else if (jje.isChecked)
             editor.putString("website", "https://eduro.jje.go.kr")
-
         editor.apply()
     }
 

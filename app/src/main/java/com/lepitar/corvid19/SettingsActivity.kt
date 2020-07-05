@@ -11,6 +11,7 @@ import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat.getSystemService
@@ -59,7 +60,7 @@ class SettingsActivity : AppCompatActivity() {
                 val hour = calendar.get(Calendar.HOUR_OF_DAY)
                 val minute = calendar.get(Calendar.MINUTE)
 
-                val timePickerDialog = TimePickerDialog(context, TimePickerDialog.OnTimeSetListener { view, hourOfDay, minute ->
+                val timePickerDialog = TimePickerDialog(context, TimePickerDialog.OnTimeSetListener { _, hourOfDay, minute ->
                     calendar.timeInMillis = System.currentTimeMillis()
                     calendar.set(Calendar.HOUR_OF_DAY, hourOfDay)
                     calendar.set(Calendar.MINUTE, minute)
@@ -84,7 +85,9 @@ class SettingsActivity : AppCompatActivity() {
                 false
             }
             student.setOnPreferenceClickListener {
-                Toast.makeText(context, "success", Toast.LENGTH_SHORT).show()
+                lateinit var dialog: CustomDialog
+                dialog = CustomDialog(requireContext(),"학생 정보를 초기화 하시겠습니까?", View.OnClickListener { edit.clear().apply();dialog.dismiss();startActivity(Intent(requireContext(),VerfyType::class.java).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)) })
+                dialog.show()
                 false
             }
         }
@@ -108,7 +111,7 @@ class SettingsActivity : AppCompatActivity() {
                         PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
                         PackageManager.DONT_KILL_APP)
             } else { //Disable Daily Notifications
-                if (PendingIntent.getBroadcast(requireContext(), 0, alarmIntent, 0) != null && alarmManager != null) {
+                if (PendingIntent.getBroadcast(requireContext(), 0, alarmIntent, 0) != null) {
                     alarmManager.cancel(pendingIntent)
                     //Toast.makeText(this,"Notifications were disabled",Toast.LENGTH_SHORT).show();
                 }

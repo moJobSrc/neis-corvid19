@@ -1,6 +1,5 @@
 package com.lepitar.corvid19
 
-import android.app.ProgressDialog
 import android.content.Context
 import android.content.Intent
 import android.os.AsyncTask
@@ -42,7 +41,7 @@ class SchulSearch : AppCompatActivity() {
         school_name.layoutManager = linearLayoutManager
         search_school.setOnClickListener{ search() }
         back.setOnClickListener{ finish() }
-        setting.setOnClickListener{ startActivity(Intent(applicationContext, settingActivity::class.java)) }
+        setting.setOnClickListener{ startActivity(Intent(applicationContext, SettingsActivity::class.java)) }
     }
 
     fun search() {
@@ -53,7 +52,7 @@ class SchulSearch : AppCompatActivity() {
                     val doc = Jsoup.connect("$url/stv_cvd_co00_003.do").data("schulNm", schulNm.text.toString()).timeout(10000).get()
                     for (element in doc.select("tr td a")) {
                         val schulCode = element.attr("onClick").replace("javscript:selectSchul(", "").replace(");", "").replace("'", "").split(",").toTypedArray()[0]
-                        newList.add(SchoolData(element.text(), schulCode))
+                        newList.add(SchoolData(element.text(), schulCode, intent.getBooleanExtra("add", false)))
                     }
                 } catch (e : Exception) {
                     toast(applicationContext.getString(R.string.error))
