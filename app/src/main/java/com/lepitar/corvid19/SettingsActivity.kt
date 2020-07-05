@@ -54,7 +54,6 @@ class SettingsActivity : AppCompatActivity() {
             prefs = PreferenceManager.getDefaultSharedPreferences(requireContext())
             edit = prefs.edit()
             val calendar = Calendar.getInstance()
-
             student.summary = prefs.getString("name", "학생 정보가 없습니다.")
             alarm.setOnPreferenceClickListener {
                 val hour = calendar.get(Calendar.HOUR_OF_DAY)
@@ -86,7 +85,21 @@ class SettingsActivity : AppCompatActivity() {
             }
             student.setOnPreferenceClickListener {
                 lateinit var dialog: CustomDialog
-                dialog = CustomDialog(requireContext(),"학생 정보를 초기화 하시겠습니까?", View.OnClickListener { edit.clear().apply();dialog.dismiss();startActivity(Intent(requireContext(),VerfyType::class.java).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)) })
+                dialog = CustomDialog(requireContext(),"학생 정보를 초기화 하시겠습니까?", View.OnClickListener {
+                    edit.apply {
+                        remove("name")
+                        remove("schoolName")
+                        remove("birth")
+                        remove("k")
+                        remove("overlap")
+                        remove("website")
+                        remove("sms_key")
+                        remove("teacher")
+                        remove("autologin")
+                        apply()
+                    }
+                    dialog.dismiss()
+                    startActivity(Intent(requireContext(),VerfyType::class.java).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)) })
                 dialog.show()
                 false
             }

@@ -88,21 +88,21 @@ class Survey : AppCompatActivity() {
                     || rspns05!!.isChecked || rspns13!!.isChecked || rspns14!!.isChecked || rspns15!!.isChecked || rspns11!!.isChecked) {
                 if (rspns01_2!!.isChecked || rspns03!!.isChecked || rspns04!!.isChecked
                         || rspns05!!.isChecked || rspns13!!.isChecked || rspns14!!.isChecked || rspns15!!.isChecked || rspns11!!.isChecked || rspns07_1!!.isChecked || rspns08_1!!.isChecked || rspns09_1!!.isChecked) {
-                    customDialog = CustomDialog(this@Survey, "코로나19 유증상 항목을 선택/응답하였습니다.\n응답 내용을 제출하시겠습니까?", View.OnClickListener { checkBoxValue()
-                        submit() })
+                    customDialog = CustomDialog(this@Survey, "코로나19 유증상 항목을 선택/응답하였습니다.\n응답 내용을 제출하시겠습니까?", View.OnClickListener { submit() })
                     customDialog!!.show()
                 } else {
-                    checkBoxValue()
                     submit()
                 }
             } else {
                 Toast.makeText(this@Survey, "2번째 문항 확인해주세요", Toast.LENGTH_SHORT).show()
             }
         }
+        if (prefs.getBoolean("submit", false)) submit()
         setting.setOnClickListener { startActivity(Intent(applicationContext, SettingsActivity::class.java)) }
     }
 
     fun submit() {
+        checkBoxValue()
         GlobalScope.launch {
             val loadingJob = async(Dispatchers.IO) {
                 try {
@@ -143,8 +143,8 @@ class Survey : AppCompatActivity() {
                     putExtra("check15", check15) //문제2
                 }
                 startActivity(intent)
-                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
                 finish()
+                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
             } else {
                 runOnUiThread { Toast.makeText(this@Survey, "잘못된 본인확인 정보입니다.\n참여주소 또는 본인확인 정보를 확인바랍니다.\n확인 후 다시 시도해 주시기 바랍니다.", Toast.LENGTH_SHORT).show() }
             }

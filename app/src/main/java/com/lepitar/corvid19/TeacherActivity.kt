@@ -24,7 +24,7 @@ class TeacherActivity : AppCompatActivity() {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
             CookieSyncManager.createInstance(this)
         }
-        webview.loadUrl("${prefs.getString("website", "")}/stv_cvd_co00_011.do?qstnCrtfcNoEncpt=&pName=${prefs.getString("name", "")}&qstnCrtfcNo=${prefs.getString("sms_key", "")}")
+        webview.loadUrl("${prefs.getString("website", "http://")!!}/stv_cvd_co00_011.do?qstnCrtfcNoEncpt=&pName=${prefs.getString("name", "")!!}&qstnCrtfcNo=${prefs.getString("sms_key", "")}")
         webview.webViewClient = object : WebViewClient() {
             var sharedPreferences = getSharedPreferences("school", Context.MODE_PRIVATE)
             override fun onPageFinished(view: WebView, url: String) {
@@ -35,7 +35,9 @@ class TeacherActivity : AppCompatActivity() {
                     CookieManager.getInstance().flush()
                 }
                 finish()
-                view.context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("${prefs.getString("website", "")}/stv_cvd_co03_000.do?qstnCrtfcNoEncpt=${prefs.getString("k", "")}")))
+                val intent = Intent(Intent.ACTION_VIEW)
+                intent.data = Uri.parse("${prefs.getString("website", "http://")!!}/stv_cvd_co03_000.do?qstnCrtfcNoEncpt=${prefs.getString("k", "")!!}")
+                view.context.startActivity(intent)
             }
         }
     }
