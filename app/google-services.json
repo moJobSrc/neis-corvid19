@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "203554982188",
+    "firebase_url": "https://neis-covid19.firebaseio.com",
+    "project_id": "neis-covid19",
+    "storage_bucket": "neis-covid19.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:203554982188:android:e05830b2583e68fba38489",
+        "android_client_info": {
+          "package_name": "com.lepitar.corvid19"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "203554982188-oahgkhijvd2bv585kdo3kbtucpnn5hgp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA0_AzBTiaHi6OKZiWcjdKqobraS1HIyLI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "203554982188-oahgkhijvd2bv585kdo3kbtucpnn5hgp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
