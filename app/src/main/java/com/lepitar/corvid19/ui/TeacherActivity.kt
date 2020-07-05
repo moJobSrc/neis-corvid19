@@ -1,4 +1,4 @@
-package com.lepitar.corvid19
+package com.lepitar.corvid19.ui
 
 import android.content.Context
 import android.content.Intent
@@ -6,10 +6,11 @@ import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.view.View
 import android.webkit.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.preference.PreferenceManager
+import com.lepitar.corvid19.dialog.FinsihDialog
+import com.lepitar.corvid19.R
 import kotlinx.android.synthetic.main.activity_teacher.*
 
 class TeacherActivity : AppCompatActivity() {

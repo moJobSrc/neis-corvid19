@@ -1,12 +1,9 @@
-package com.lepitar.corvid19
+package com.lepitar.corvid19.ui
 
-import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.util.Log
 import android.view.View
-import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.preference.PreferenceManager
@@ -15,12 +12,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.google.android.gms.ads.AdRequest
-import com.google.android.gms.ads.AdView
 import com.google.android.gms.ads.MobileAds
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import com.lepitar.corvid19.dialog.CustomDialog
 import com.lepitar.corvid19.ListAccount.AccountAdapter
 import com.lepitar.corvid19.ListAccount.AccountData
+import com.lepitar.corvid19.R
 import kotlinx.android.synthetic.main.activity_universe_account.*
 import java.util.*
 

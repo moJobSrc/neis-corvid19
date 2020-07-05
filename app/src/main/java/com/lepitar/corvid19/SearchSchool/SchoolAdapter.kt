@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
-import com.lepitar.corvid19.MainActivity
+import com.lepitar.corvid19.ui.MainActivity
 import com.lepitar.corvid19.R
 import java.util.*
 

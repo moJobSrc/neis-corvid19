@@ -1,7 +1,6 @@
 package com.lepitar.corvid19.ListAccount
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
@@ -11,6 +10,8 @@ import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.lepitar.corvid19.*
+import com.lepitar.corvid19.ui.Survey
+import com.lepitar.corvid19.ui.TeacherActivity
 import java.util.*
 
 class AccountAdapter(accountData: ArrayList<AccountData>?) : RecyclerView.Adapter<AccountAdapter.CustomViewHolder>() {

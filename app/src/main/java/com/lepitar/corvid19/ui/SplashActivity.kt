@@ -1,4 +1,4 @@
-package com.lepitar.corvid19
+package com.lepitar.corvid19.ui
 
 import android.content.Intent
 import android.content.SharedPreferences
@@ -7,6 +7,9 @@ import android.os.Handler
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.preference.PreferenceManager
+import com.lepitar.corvid19.BuildConfig
+import com.lepitar.corvid19.dialog.FinsihDialog
+import com.lepitar.corvid19.R
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async

@@ -14,27 +14,27 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".SettingsActivity"
+            android:name=".ui.SettingsActivity"
         android:label="설정"></activity>
-        <activity android:name=".UniverseAccount" />
+        <activity android:name=".ui.UniverseAccount" />
 
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
             android:value="ca-app-pub-1669410972998079~8732957529" />
 
         <activity
-            android:name=".TeacherActivity"
+            android:name=".ui.TeacherActivity"
             android:screenOrientation="portrait" >
             <intent-filter>
                 <category android:name="android.intent.category.BROWSABLE" />
             </intent-filter>
         </activity>
-        <activity android:name=".SmsActivity" />
+        <activity android:name=".ui.SmsActivity" />
         <activity
-            android:name=".VerfyType"
+            android:name=".ui.VerfyType"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".SplashActivity"
+            android:name=".ui.SplashActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -42,19 +42,19 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".AreaActivity"
+            android:name=".ui.AreaActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".FinishActivity"
+            android:name=".ui.FinishActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".SchulSearch"
+            android:name=".ui.SchulSearch"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Survey"
+            android:name=".ui.Survey"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".MainActivity"
+            android:name=".ui.MainActivity"
             android:screenOrientation="portrait" />
 
         <receiver

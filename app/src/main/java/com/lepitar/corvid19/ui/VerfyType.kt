@@ -1,15 +1,13 @@
-package com.lepitar.corvid19
+package com.lepitar.corvid19.ui
 
-import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.util.Log
 import android.view.View
-import android.widget.Button
-import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.preference.PreferenceManager
+import com.lepitar.corvid19.dialog.FinsihDialog
+import com.lepitar.corvid19.R
 import kotlinx.android.synthetic.main.activity_verfy_type.*
 
 class VerfyType : AppCompatActivity() {

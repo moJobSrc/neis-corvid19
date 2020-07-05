@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.lepitar.corvid19.TeacherActivity">
+    tools:context="com.lepitar.corvid19.ui.TeacherActivity">
 
     <WebView
         android:id="@+id/webview"

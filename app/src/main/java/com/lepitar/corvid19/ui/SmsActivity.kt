@@ -1,30 +1,23 @@
-package com.lepitar.corvid19
+package com.lepitar.corvid19.ui
 
-import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
-import android.os.AsyncTask
 import android.os.Bundle
-import android.view.View
-import android.view.WindowManager
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.preference.PreferenceManager
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import com.lepitar.corvid19.dialog.FinsihDialog
 import com.lepitar.corvid19.ListAccount.AccountData
+import com.lepitar.corvid19.R
 import kotlinx.android.synthetic.main.activity_sms.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
-import org.json.JSONException
 import org.json.JSONObject
 import org.jsoup.Connection
 import org.jsoup.Jsoup
-import java.io.IOException
 import java.lang.Exception
 import java.util.*
 

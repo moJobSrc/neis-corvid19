@@ -1,20 +1,20 @@
-package com.lepitar.corvid19
+package com.lepitar.corvid19.ui
 
-import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.graphics.Color
-import android.os.AsyncTask
 import android.os.Bundle
 import android.text.Spannable
 import android.text.SpannableStringBuilder
 import android.text.style.ForegroundColorSpan
 import android.util.Log
 import android.view.View
-import android.view.WindowManager
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.preference.PreferenceManager
+import com.lepitar.corvid19.dialog.CustomDialog
+import com.lepitar.corvid19.dialog.FinsihDialog
+import com.lepitar.corvid19.R
 import kotlinx.android.synthetic.main.activity_survey.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -22,7 +22,6 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import org.json.JSONObject
 import org.jsoup.Jsoup
-import java.io.IOException
 
 class Survey : AppCompatActivity() {
     var customDialog: CustomDialog? = null
@@ -120,7 +119,7 @@ class Survey : AppCompatActivity() {
                     stdntName = jsonObject.getString("stdntName")
                 } catch (e : java.lang.Exception) {
                     e.printStackTrace()
-                    runOnUiThread{Toast.makeText(applicationContext,R.string.error, Toast.LENGTH_SHORT).show()}
+                    runOnUiThread{Toast.makeText(applicationContext, R.string.error, Toast.LENGTH_SHORT).show()}
                 }
             }
             loadingJob.join()
