@@ -20,6 +20,9 @@ import com.lepitar.corvid19.ListAccount.AccountAdapter
 import com.lepitar.corvid19.ListAccount.AccountData
 import com.lepitar.corvid19.R
 import kotlinx.android.synthetic.main.activity_universe_account.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import java.util.*
 
 class UniverseAccount : AppCompatActivity() {
@@ -87,12 +90,13 @@ class UniverseAccount : AppCompatActivity() {
     }
 
     fun loadData() {
-        val gson = Gson()
-        val json = sharedPreferences.getString("account_list", "")
-        val type = object : TypeToken<ArrayList<AccountData?>?>() {}.type
-        arrayList = gson.fromJson<ArrayList<AccountData>>(json, type)
-        if (arrayList == null) {
-            arrayList = ArrayList()
+        GlobalScope.launch {
+            val json = sharedPreferences.getString("account_list", "")
+            val type = object : TypeToken<ArrayList<AccountData?>?>() {}.type
+            arrayList = Gson().fromJson<ArrayList<AccountData>>(json, type)
+            if (arrayList == null) {
+                arrayList = ArrayList()
+            }
         }
     }
 

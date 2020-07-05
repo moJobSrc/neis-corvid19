@@ -12,6 +12,7 @@ import com.lepitar.corvid19.dialog.FinsihDialog
 import com.lepitar.corvid19.ListAccount.AccountData
 import com.lepitar.corvid19.R
 import kotlinx.android.synthetic.main.activity_sms.*
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
@@ -44,7 +45,7 @@ class SmsActivity : AppCompatActivity() {
 
     fun confirm() {
         GlobalScope.launch {
-            val loadingJob = async {
+            val loadingJob = async(Dispatchers.IO) {
                 try {
                     val jsoup = Jsoup.connect(prefs.getString("website", "") + "/stv_cvd_co00_011.do")
                             .data("qstnCrtfcNoEncpt", "", "pName", name.text.toString(), "qstnCrtfcNo", sms_key.text.toString())

@@ -49,7 +49,7 @@ class MainActivity : AppCompatActivity() {
         val frnoRidno = birth.text.toString()
         val overlap = add_info_edit.text.toString()
 
-        GlobalScope.launch() {
+        GlobalScope.launch(Dispatchers.IO) {
             var result : String = ""
             var qstnCrtfcNoEncpt : String = ""
 

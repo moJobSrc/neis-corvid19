@@ -8,6 +8,7 @@ import androidx.preference.PreferenceManager
 import com.lepitar.corvid19.dialog.FinsihDialog
 import com.lepitar.corvid19.R
 import kotlinx.android.synthetic.main.activity_finish.*
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
@@ -61,7 +62,7 @@ class FinishActivity : AppCompatActivity() {
 
     fun confirm() {
         GlobalScope.launch {
-            val loadingJob = async {
+            val loadingJob = async (Dispatchers.IO){
                 val doc = Jsoup.connect(PreferenceManager.getDefaultSharedPreferences(this@FinishActivity).getString("website", "") + "/stv_cvd_co02_000.do")
                         .data("schulNm", schulNm, "stdntName", stdntName, "rtnRsltCode", "SUCCESS", "qstnCrtfcNoEncpt", qstnCrtfcNoEncpt
                                 , "rspns01", check01, "rspns02", check02, "rspns03", check03, "rspns04", check04, "rspns05", check05, "rspns07", check07

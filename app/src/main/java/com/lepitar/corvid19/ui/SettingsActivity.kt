@@ -75,7 +75,6 @@ class SettingsActivity : AppCompatActivity() {
                         putInt("minute", calendar.get(Calendar.MINUTE))
                         apply()
                     }
-                    Log.d("hourofday", calendar.toString())
                     diaryNotification(calendar, true)
                     alarm.summary = prefs.getString("time", "시간")
                 },hour,minute,android.text.format.DateFormat.is24HourFormat(context))
