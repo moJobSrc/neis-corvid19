@@ -5,6 +5,7 @@ import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.RecyclerView
@@ -30,7 +31,7 @@ class AccountAdapter(accountData: ArrayList<AccountData>?) : RecyclerView.Adapte
         } else {
             holder.account_list.text = "${accountData!![position].name}(${accountData!![position].birth})"
         }
-        holder.account_list.setOnClickListener { v ->
+        holder.list_item.setOnClickListener { v ->
             val context = v.context
             val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
             val editor = sharedPreferences.edit()
@@ -61,7 +62,8 @@ class AccountAdapter(accountData: ArrayList<AccountData>?) : RecyclerView.Adapte
     }
 
     inner class CustomViewHolder(itemView: View) : ViewHolder(itemView) {
-        var account_list: TextView = itemView.findViewById<View>(R.id.tv_account) as TextView
+        val account_list: TextView = itemView.findViewById<View>(R.id.tv_account) as TextView
+        val list_item: LinearLayout = itemView.findViewById<View>(R.id.list_item) as LinearLayout
     }
 
     init {

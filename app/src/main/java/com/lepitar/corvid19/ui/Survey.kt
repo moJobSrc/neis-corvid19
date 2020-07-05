@@ -106,7 +106,6 @@ class Survey : AppCompatActivity() {
             val loadingJob = async(Dispatchers.IO) {
                 try {
                     qstnCrtfcNoEncpt = prefs.getString("k", "")!!
-                    Log.d("test", url)
                     val doc = Jsoup.connect("$url/stv_cvd_co01_000.do")
                             .data("rtnRsltCode", "SUCCESS", "qstnCrtfcNoEncpt", qstnCrtfcNoEncpt
                                     , "schulNm", "", "stdntName", ""
@@ -142,7 +141,6 @@ class Survey : AppCompatActivity() {
                     putExtra("check15", check15) //문제2
                 }
                 startActivity(intent)
-                finish()
                 overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
             } else {
                 runOnUiThread { Toast.makeText(this@Survey, "잘못된 본인확인 정보입니다.\n참여주소 또는 본인확인 정보를 확인바랍니다.\n확인 후 다시 시도해 주시기 바랍니다.", Toast.LENGTH_SHORT).show() }

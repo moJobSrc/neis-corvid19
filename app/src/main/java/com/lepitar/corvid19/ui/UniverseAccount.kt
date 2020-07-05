@@ -39,9 +39,14 @@ class UniverseAccount : AppCompatActivity() {
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
         editor = sharedPreferences.edit()
         loadData()
-        MobileAds.initialize(this) { }
-        val adRequest = AdRequest.Builder().build()
-        adView.loadAd(adRequest)
+
+        GlobalScope.launch {
+            MobileAds.initialize(this@UniverseAccount) { }
+            runOnUiThread {
+                val adRequest = AdRequest.Builder().build()
+                adView.loadAd(adRequest)
+            }
+        }
 
         linearLayoutManager = LinearLayoutManager(this)
         accountAdapter = AccountAdapter(arrayList)
@@ -90,13 +95,11 @@ class UniverseAccount : AppCompatActivity() {
     }
 
     fun loadData() {
-        GlobalScope.launch {
-            val json = sharedPreferences.getString("account_list", "")
-            val type = object : TypeToken<ArrayList<AccountData?>?>() {}.type
-            arrayList = Gson().fromJson<ArrayList<AccountData>>(json, type)
-            if (arrayList == null) {
-                arrayList = ArrayList()
-            }
+        val json = sharedPreferences.getString("account_list", "")
+        val type = object : TypeToken<ArrayList<AccountData?>?>() {}.type
+        arrayList = Gson().fromJson<ArrayList<AccountData>>(json, type)
+        if (arrayList == null) {
+            arrayList = ArrayList()
         }
     }
 

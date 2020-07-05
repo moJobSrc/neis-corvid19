@@ -16,11 +16,18 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.PreferenceManager
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.MobileAds
 import com.lepitar.corvid19.Alarm.AlarmReceiver
 import com.lepitar.corvid19.Alarm.DeviceBootReceiver
 import com.lepitar.corvid19.dialog.CustomDialog
 import com.lepitar.corvid19.R
+import kotlinx.android.synthetic.main.activity_universe_account.*
 import kotlinx.android.synthetic.main.settings_activity.*
+import kotlinx.android.synthetic.main.settings_activity.adView
+import kotlinx.android.synthetic.main.settings_activity.back
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -35,7 +42,13 @@ class SettingsActivity : AppCompatActivity() {
                 .replace(R.id.settings, SettingsFragment())
                 .commit()
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-
+        GlobalScope.launch {
+            MobileAds.initialize(this@SettingsActivity) { }
+            runOnUiThread {
+                val adRequest = AdRequest.Builder().build()
+                adView.loadAd(adRequest)
+            }
+        }
         back.setOnClickListener { finish() }
     }
 

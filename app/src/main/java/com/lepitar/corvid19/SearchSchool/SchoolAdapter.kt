@@ -4,6 +4,7 @@ import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
@@ -20,7 +21,7 @@ class SchoolAdapter(schoolData: ArrayList<SchoolData>?) : RecyclerView.Adapter<S
 
     override fun onBindViewHolder(holder: CustomViewHolder, position: Int) {
         holder.schoolname.text = schoolData!![position].schoolName
-        holder.schoolname.setOnClickListener { v ->
+        holder.list_item.setOnClickListener { v ->
             val context = v.context
             val intent = Intent(v.context, MainActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
             intent.putExtra("schulNm", schoolData!![position].schoolName)
@@ -35,7 +36,8 @@ class SchoolAdapter(schoolData: ArrayList<SchoolData>?) : RecyclerView.Adapter<S
     }
 
     inner class CustomViewHolder(itemView: View) : ViewHolder(itemView) {
-        var schoolname = itemView.findViewById<View>(R.id.tv_schoolname) as TextView
+        val schoolname = itemView.findViewById<View>(R.id.tv_schoolname) as TextView
+        val list_item = itemView.findViewById<View>(R.id.list_item) as LinearLayout
     }
 
     init {

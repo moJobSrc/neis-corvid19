@@ -1,32 +1,29 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <PreferenceCategory android:title="설정">
-
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="alarm"
-            android:summary="시간"
-            android:title="알림 설정" />
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="submit"
-            android:summary="모두 아니오로 제출합니다."
-            android:title="즉시 제출" />
-        <Preference
-            android:defaultValue="Default value"
-            android:key="account"
-            android:selectAllOnFocus="true"
-            android:singleLine="true"
-            android:title="다중 인증" >
-        </Preference>
-        <Preference
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:defaultValue="Default value"
-            android:key="student"
-            android:selectAllOnFocus="true"
-            android:singleLine="true"
-            android:summary="학생정보"
-            android:title="학생정보 초기화" />
-    </PreferenceCategory>
+    <SwitchPreference
+        android:defaultValue="false"
+        android:key="alarm"
+        android:summary="시간"
+        android:title="알림 설정" />
+    <SwitchPreference
+        android:defaultValue="false"
+        android:key="submit"
+        android:summary="모두 아니오로 제출합니다."
+        android:title="즉시 제출"/>
+    <Preference
+        android:defaultValue="Default value"
+        android:key="account"
+        android:selectAllOnFocus="true"
+        android:singleLine="true"
+        android:title="다중 인증" >
+    </Preference>
+    <Preference
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:defaultValue="Default value"
+        android:key="student"
+        android:selectAllOnFocus="true"
+        android:singleLine="true"
+        android:summary="학생정보"
+        android:title="학생정보 초기화" />
 </PreferenceScreen>
