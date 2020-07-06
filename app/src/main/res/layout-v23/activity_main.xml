@@ -162,7 +162,7 @@
                             android:fontFamily="@font/nanumsquareb"
                             android:background="#8E8E8E"
                             android:foreground="?attr/selectableItemBackground"
-                            android:layout_marginLeft="10dp"
+                            android:layout_marginStart="10dp"
                             android:focusable="true" />
                     </LinearLayout>
 

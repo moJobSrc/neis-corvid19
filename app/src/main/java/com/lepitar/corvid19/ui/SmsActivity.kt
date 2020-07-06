@@ -36,8 +36,6 @@ class SmsActivity : AppCompatActivity() {
         editor = prefs.edit()
         add = intent.getBooleanExtra("add", false)
         loadData()
-        name.setText(prefs.getString("name", ""))
-        sms_key.setText(prefs.getString("sms_key", ""))
         confirm.setOnClickListener{ confirm() }
         back.setOnClickListener{ finish() }
         setting.setOnClickListener{ startActivity(Intent(applicationContext, SettingsActivity::class.java)) }

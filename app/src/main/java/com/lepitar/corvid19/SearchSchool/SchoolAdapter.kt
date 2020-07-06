@@ -1,5 +1,6 @@
 package com.lepitar.corvid19.SearchSchool
 
+import android.app.Activity
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
@@ -23,11 +24,12 @@ class SchoolAdapter(schoolData: ArrayList<SchoolData>?) : RecyclerView.Adapter<S
         holder.schoolname.text = schoolData!![position].schoolName
         holder.list_item.setOnClickListener { v ->
             val context = v.context
-            val intent = Intent(v.context, MainActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-            intent.putExtra("schulNm", schoolData!![position].schoolName)
-            intent.putExtra("schulCode", schoolData!![position].schulCode)
-            intent.putExtra("add", schoolData!![position].add)
-            context.startActivity(intent)
+            var intent = Intent().apply {
+                putExtra("name", schoolData!![position].schoolName)
+                putExtra("schulCode", schoolData!![position].schulCode)
+            }
+            (context as Activity).setResult(Activity.RESULT_OK, intent)
+            context.finish()
         }
     }
 

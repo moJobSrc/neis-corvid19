@@ -1,5 +1,6 @@
 package com.lepitar.corvid19.ui
 
+import android.app.Activity
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
@@ -25,6 +26,7 @@ class MainActivity : AppCompatActivity() {
 
     var arrayList: ArrayList<AccountData>? = null
     var loadingJob : Job? = null
+    var schulCode : String = ""
     lateinit var sharedPreferences : SharedPreferences
     lateinit var editor : SharedPreferences.Editor
     var add : Boolean? = null
@@ -36,11 +38,18 @@ class MainActivity : AppCompatActivity() {
         editor = sharedPreferences.edit()
         add = intent.getBooleanExtra("add", false)
         loadData()
-        schulNm.setText(intent.getStringExtra("schulNm"))
         back.setOnClickListener{ finish() }
         setting.setOnClickListener{ startActivity(Intent(applicationContext, SettingsActivity::class.java)) }
-        search_school.setOnClickListener{ startActivity(Intent(applicationContext, SchulSearch::class.java).putExtra("add", add!!)) }
+        search_school.setOnClickListener{ startActivityForResult(Intent(applicationContext, SchulSearch::class.java).putExtra("add", add!!), 100) }
         confirm.setOnClickListener{ confirm() }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == Activity.RESULT_OK) {
+            schulNm.setText(data?.getStringExtra("name"))
+            schulCode = data?.getStringExtra("schulCode")!!
+        }
     }
 
     private fun confirm() {
@@ -55,9 +64,8 @@ class MainActivity : AppCompatActivity() {
 
             loadingJob = async(Dispatchers.IO) {
                 try {
-                    val doc = Jsoup.connect(sharedPreferences.getString("website", "") + "/stv_cvd_co00_012.do")
-                            .data("schulCode", intent.getStringExtra("schulCode")?: throw IllegalArgumentException("잘못된 본인확인 정보를 입력하였습니다.\n" +
-                                    "확인 후 다시 시도해 주시기 바랍니다."), "schulNm", schulNm, "pName", pName, "frnoRidno", frnoRidno, "aditCrtfcNo", overlap)
+                    val doc = Jsoup.connect(sharedPreferences.getString("website", "https://") + "/stv_cvd_co00_012.do")
+                            .data("schulCode", schulCode, "schulNm", schulNm, "pName", pName, "frnoRidno", frnoRidno, "aditCrtfcNo", overlap)
                             .method(Connection.Method.POST)
                             .timeout(10000)
                             .ignoreContentType(true).get()
@@ -90,7 +98,7 @@ class MainActivity : AppCompatActivity() {
                 }
                 "ADIT_CRTFC_NO" -> {
                     toast("동일한 이름을 가진 학생이 있어, 추가정보를 입력해주시기 바랍니다.\n주민등록번호 마지막 2자리")
-                    add_info.visibility = View.VISIBLE; add_info_edit.visibility = View.VISIBLE
+                    runOnUiThread { add_info.visibility = View.VISIBLE; add_info_edit.visibility = View.VISIBLE }
                 }
                 "QSTN_USR_ERROR" -> {
                     toast("잘못된 본인확인 정보를 입력하였습니다.\n확인 후 다시 시도해 주시기 바랍니다.")

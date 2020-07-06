@@ -57,8 +57,9 @@ class UniverseAccount : AppCompatActivity() {
         itemTouchHelper.attachToRecyclerView(account_list)
         back.setOnClickListener(View.OnClickListener { finish() })
         add.setOnClickListener(View.OnClickListener {
-            val intent = Intent(applicationContext, VerfyType::class.java)
-            intent.putExtra("add", true)
+            var intent = Intent(applicationContext, VerfyType::class.java). apply {
+                putExtra("add", true)
+            }
             startActivity(intent)
             overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
         })

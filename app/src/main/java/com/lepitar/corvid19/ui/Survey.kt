@@ -123,7 +123,7 @@ class Survey : AppCompatActivity() {
             }
             loadingJob.join()
             if ("SUCCESS" == result) {
-                val intent = Intent(applicationContext, FinishActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK).apply {
+                var intent = Intent(applicationContext, FinishActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK).apply {
                     putExtra("k", qstnCrtfcNoEncpt) //학생고유 인증주소
                     putExtra("schulNm", schulNm) //학교이름
                     putExtra("stdntName", stdntName) //학생이름

@@ -113,7 +113,10 @@
                         android:textColor="#FFF"
                         android:fontFamily="@font/nanumsquareb"
                         android:background="#8E8E8E"
-                        android:layout_marginLeft="5dp"/>
+                        android:clickable="true"
+                        android:foreground="?attr/selectableItemBackground"
+                        android:layout_marginLeft="5dp"
+                        android:focusable="true" />
                 </LinearLayout>
             </LinearLayout>
 

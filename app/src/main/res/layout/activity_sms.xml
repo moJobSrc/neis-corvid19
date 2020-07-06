@@ -116,17 +116,19 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
+
                         <EditText
                             android:id="@+id/name"
                             android:layout_width="wrap_content"
                             android:layout_height="50dp"
-                            android:hint="이름"
-                            android:background="@drawable/border"
-                            android:padding="10dp"
-                            android:textSize="15sp"
                             android:layout_weight="1"
+                            android:background="@drawable/border"
+                            android:ellipsize="end"
+                            android:hint="이름"
+                            android:padding="10dp"
                             android:textColor="#000"
-                            android:ellipsize="end"/>
+                            android:textSize="15sp"
+                            android:selectAllOnFocus="true"/>
                     </LinearLayout>
 
                     <EditText

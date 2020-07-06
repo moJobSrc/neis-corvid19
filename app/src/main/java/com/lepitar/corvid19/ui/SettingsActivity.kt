@@ -26,6 +26,7 @@ import kotlinx.android.synthetic.main.activity_universe_account.*
 import kotlinx.android.synthetic.main.settings_activity.*
 import kotlinx.android.synthetic.main.settings_activity.adView
 import kotlinx.android.synthetic.main.settings_activity.back
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
@@ -42,7 +43,7 @@ class SettingsActivity : AppCompatActivity() {
                 .replace(R.id.settings, SettingsFragment())
                 .commit()
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        GlobalScope.launch {
+        GlobalScope.launch(Dispatchers.IO) {
             MobileAds.initialize(this@SettingsActivity) { }
             runOnUiThread {
                 val adRequest = AdRequest.Builder().build()

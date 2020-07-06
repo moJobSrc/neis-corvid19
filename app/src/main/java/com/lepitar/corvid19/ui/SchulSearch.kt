@@ -42,7 +42,7 @@ class SchulSearch : AppCompatActivity() {
                     val doc = Jsoup.connect("$url/stv_cvd_co00_003.do").data("schulNm", schulNm.text.toString()).timeout(10000).get()
                     for (element in doc.select("tr td a")) {
                         val schulCode = element.attr("onClick").replace("javscript:selectSchul(", "").replace(");", "").replace("'", "").split(",").toTypedArray()[0]
-                        newList.add(SchoolData(element.text(), schulCode, intent.getBooleanExtra("add", false)))
+                        newList.add(SchoolData(element.text(), schulCode))
                     }
                 } catch (e : Exception) {
                     toast(applicationContext.getString(R.string.error))
