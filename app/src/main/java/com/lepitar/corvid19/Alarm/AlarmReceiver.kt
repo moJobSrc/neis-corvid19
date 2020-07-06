@@ -40,13 +40,14 @@ class AlarmReceiver : BroadcastReceiver() {
         builder.setAutoCancel(true)
                 .setDefaults(NotificationCompat.DEFAULT_ALL)
                 .setWhen(System.currentTimeMillis())
-                .setTicker("설문조사!")
+                .setTicker("자가검진")
                 .setContentTitle("자가검진을 해주세요!")
-                .setContentText("코로나 예방을위해 설문조사를 해주세요. 설정 -> 알람설정 끄기")
+                .setContentText("나이스 학생자가진단 설문조사를 해주세요. \n설정 -> 알람설정 끄기")
+                .setStyle(NotificationCompat.BigTextStyle().bigText("나이스 학생자가진단 설문조사를 해주세요. \n설정 -> 알람설정 끄기"))
                 .setContentIntent(pendingI)
 
         // 노티피케이션 동작시킴
-        notificationManager.notify(1234, builder.build())
+        notificationManager.notify(1001, builder.build())
         val nextNotifyTime = Calendar.getInstance()
         nextNotifyTime.apply {
             timeInMillis = System.currentTimeMillis()

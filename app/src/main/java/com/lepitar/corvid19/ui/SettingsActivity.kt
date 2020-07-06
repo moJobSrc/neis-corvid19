@@ -12,10 +12,9 @@ import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.CheckBox
 import androidx.appcompat.app.AppCompatActivity
-import androidx.preference.Preference
-import androidx.preference.PreferenceFragmentCompat
-import androidx.preference.PreferenceManager
+import androidx.preference.*
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.MobileAds
 import com.lepitar.corvid19.Alarm.AlarmReceiver
@@ -43,7 +42,7 @@ class SettingsActivity : AppCompatActivity() {
                 .replace(R.id.settings, SettingsFragment())
                 .commit()
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        GlobalScope.launch(Dispatchers.IO) {
+        GlobalScope.launch {
             MobileAds.initialize(this@SettingsActivity) { }
             runOnUiThread {
                 val adRequest = AdRequest.Builder().build()
@@ -54,7 +53,7 @@ class SettingsActivity : AppCompatActivity() {
     }
 
     class SettingsFragment : PreferenceFragmentCompat() {
-        lateinit var alarm : Preference
+        lateinit var alarm : SwitchPreference
         lateinit var account : Preference
         lateinit var student : Preference
         lateinit var prefs: SharedPreferences
@@ -62,7 +61,7 @@ class SettingsActivity : AppCompatActivity() {
 
         override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
             setPreferencesFromResource(R.xml.root_preferences, rootKey)
-            alarm = findPreference<Preference>("alarm")!!
+            alarm = findPreference<SwitchPreference>("alarm")!!
             account = findPreference<Preference>("account")!!
             student = findPreference<Preference>("student")!!
             prefs = PreferenceManager.getDefaultSharedPreferences(requireContext())
@@ -92,7 +91,18 @@ class SettingsActivity : AppCompatActivity() {
                     diaryNotification(calendar, true)
                     alarm.summary = prefs.getString("time", "시간")
                 },hour,minute,android.text.format.DateFormat.is24HourFormat(context))
+                timePickerDialog.setOnCancelListener {
+                    edit.putBoolean("alarm", false)
+                    edit.remove("time").apply()
+                    alarm.summary = prefs.getString("time", "시간")
+                    alarm.isChecked = false
+                }
+                timePickerDialog.apply {
+                    setCancelable(false)
+                    setCanceledOnTouchOutside(false)
+                }
                 if (prefs.getBoolean("alarm", false)) timePickerDialog.show()
+                else edit.remove("time").apply();alarm.summary = prefs.getString("time", "시간")
                 false
             }
             account.setOnPreferenceClickListener {
